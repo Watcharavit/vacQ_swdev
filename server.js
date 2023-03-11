@@ -10,12 +10,14 @@ dotenv.config({ path: "./config/config.env" });
 connectDB();
 
 // route files
+const appointments = require("./routes/appointments");
 const hospitals = require("./routes/hospitals");
 const auth = require("./routes/auth");
 const app = express();
 
 // body parser
 app.use(express.json());
+app.use("/api/v1/appointments", appointments);
 app.use("/api/v1/hospitals", hospitals);
 app.use("/api/v1/auth", auth);
 
@@ -25,12 +27,7 @@ app.use(cookieParser());
 const PORT = process.env.PORT || 5000;
 const server = app.listen(
 	PORT,
-	console.log(
-		"server running in",
-		process.env.NODE_ENV,
-		" mode on port ",
-		PORT
-	)
+	console.log("server running in", process.env.NODE_ENV, " mode on port ", PORT)
 );
 
 //handle unhandled promise rejection

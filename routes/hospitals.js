@@ -8,6 +8,10 @@ const {
 	deleteHospital,
 } = require("../controllers/hospitals");
 const { protect, authorize } = require("../middleware/auth");
+const appointmentRouter = require("./appointments");
+
+router.use("/:hospitalId/appointments/", appointmentRouter);
+// router.route('/:hospitalId/appointments/').use(appointmentRouter);
 
 router.route("/").get(getHospitals).post(protect, authorize("admin"), createHospital);
 router
