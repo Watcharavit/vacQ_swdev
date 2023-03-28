@@ -29,7 +29,7 @@ exports.login = async (reg, res, next) => {
 	if (!email || !password) {
 		return res.status(400).json({
 			success: false,
-			msg: "Please provide an email and password",
+			msg: "Please provide an email and password"
 		});
 	}
 
@@ -38,7 +38,7 @@ exports.login = async (reg, res, next) => {
 	if (!user) {
 		return res.status(400).json({
 			success: false,
-			msg: "Invalid credentials",
+			msg: "Invalid credentials"
 		});
 	}
 
@@ -47,7 +47,7 @@ exports.login = async (reg, res, next) => {
 	if (!isMatch) {
 		return res.status(401).json({
 			success: false,
-			msg: "Invalid credentials",
+			msg: "Invalid credentials"
 		});
 	}
 
@@ -61,7 +61,7 @@ const sendTokenResponse = (user, statusCode, res) => {
 	const token = user.getSignedJWTToken();
 	const options = {
 		expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
-		httpOnly: true,
+		httpOnly: true
 	};
 
 	if (process.env.NODE_ENV === "production") {
@@ -69,7 +69,12 @@ const sendTokenResponse = (user, statusCode, res) => {
 	}
 	res.status(statusCode).cookie("token", token, options).json({
 		success: true,
-		token,
+		//add for frontend
+		_id: user._id,
+		name: user.name,
+		email: user.email,
+		//end for frontend
+		token
 	});
 };
 
