@@ -1,4 +1,6 @@
 #ignore all modules
 node_modules/*
 #ignore config file
-# config/config.env
+
+# comment line below for deployment
+config/config.env
