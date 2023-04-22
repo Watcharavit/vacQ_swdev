@@ -1,0 +1,618 @@
+{
+	"info": {
+		"_postman_id": "5eed7071-b708-4e41-bae2-92eec229dd8f",
+		"name": "VaqQ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25512971"
+	},
+	"item": [
+		{
+			"name": "Hospitals",
+			"item": [
+				{
+					"name": "Get All Hospitals",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"const response = pm.response.json();\r",
+									"console.log(response);\r",
+									"pm.test(\"There are some hospitals!\", ()=>{\r",
+									"    pm.expect(response.count).to.be.above(0);\r",
+									"});\r",
+									"postman.setNextRequest(\"Create New Hospital\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/hospitals",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "hospitals"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Hospital",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["pm.test(\"Status code is 200\", function () {\r", "    pm.response.to.have.status(200);\r", "});\r", "postman.setNextRequest(\"Update Single Hospital\");"],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/hospitals/:hospitalId",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "hospitals", ":hospitalId"],
+							"variable": [
+								{
+									"key": "hospitalId",
+									"value": "{{HOSPITALID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Hospital",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.environment.set(\"HOSPITALID\",pm.response.json().data.id);\r",
+									"postman.setNextRequest(\"Get Single Hospital\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "content-type",
+								"value": "application/json",
+								"description": "json type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"{{$randomFullName}}\",\r\n    \"address\":\"{{$randomStreetAddress}}\",\r\n    \"district\":\"pakkret\",\r\n    \"province\":\"nonthaburi\",\r\n    \"postalcode\":\"10110\",\r\n    \"tel\":\"{{$randomPhoneNumber}}\",\r\n    \"region\": \"bangkok\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/hospitals",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "hospitals"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Single Hospital",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["pm.test(\"Status code is 200\", function () {\r", "    pm.response.to.have.status(200);\r", "});\r", "postman.setNextRequest(\"Delete Single Hospital\");"],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "content-type",
+								"value": "application/json",
+								"description": "json type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"tempo med\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/hospitals/:hospitalId",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "hospitals", ":hospitalId"],
+							"variable": [
+								{
+									"key": "hospitalId",
+									"value": "{{HOSPITALID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Single Hospital",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["pm.test(\"Status code is 200\", function () {\r", "    pm.response.to.have.status(200);\r", "});\r", "postman.setNextRequest(\"null\");"],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/hospitals/:hospitalId",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "hospitals", ":hospitalId"],
+							"variable": [
+								{
+									"key": "hospitalId",
+									"value": "{{HOSPITALID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get vaccine centers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/hospitals/vacCenters",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "hospitals", "vacCenters"]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "folder responsible for Hospitals"
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["pm.environment.set(\"TOKEN\",pm.response.json().token)"],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "json type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"pop\",\r\n    \"email\":\"pop@gmail.com\",\r\n    \"password\":\"123456\",\r\n    \"role\":\"user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/register",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "auth", "register"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "log in(admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["pm.environment.set(\"TOKEN\",pm.response.json().token)"],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "json type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/login",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "auth", "login"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "log in(non admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["pm.environment.set(\"TOKEN\",pm.response.json().token)"],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "json type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"earn@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/login",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "auth", "login"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get login user with token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "json type",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/me",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "auth", "me"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["pm.environment.set(\"TOKEN\",null)"],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/logout",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "auth", "logout"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Appointments",
+			"item": [
+				{
+					"name": "Get all appt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "appointments"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get appts for hospital",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/hospitals/640b4d13c3d954e1ca4cbc99/appointments",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "hospitals", "640b4d13c3d954e1ca4cbc99", "appointments"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one appt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/640c30b01d02b13114599884",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "appointments", "640c30b01d02b13114599884"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add appt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "content-type",
+								"value": "application/json",
+								"description": "json type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"apptDate\":\"2022\",\r\n    \"user\":\"640c247242768e704c265fc7\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/hospitals/640b4d13c3d954e1ca4cbc99/appointments",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "hospitals", "640b4d13c3d954e1ca4cbc99", "appointments"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update appt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "content-type",
+								"value": "application/json",
+								"description": "json type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"apptDate\":\"2024\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/640c55ae5295c50396b53256",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "appointments", "640c55ae5295c50396b53256"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete appt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "content-type",
+								"value": "application/json",
+								"description": "json type",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/v1/appointments/640c55ae5295c50396b53256",
+							"host": ["{{URL}}"],
+							"path": ["api", "v1", "appointments", "640c55ae5295c50396b53256"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [""]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [""]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "https://vac-q-swdev-duyt0dj3o-watcharavit.vercel.app",
+			"type": "string"
+		},
+		{
+			"key": "TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGMyMzQzYjNlYjJkZDJkYmVjOGE4ZSIsImlhdCI6MTY4MDM2NzEzOSwiZXhwIjoxNjgyOTU5MTM5fQ.gkr2wZ2AEucYQIMHXgEez-zDfHwKpbTJk9ebfcPtwJc",
+			"type": "string"
+		},
+		{
+			"key": "HOSPITALID",
+			"value": "6443ad072300be447862dace",
+			"type": "string"
+		}
+	]
+}
